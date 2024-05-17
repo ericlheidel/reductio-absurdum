@@ -110,3 +110,98 @@ List<ProductType> productTypes = new List<ProductType>()
         Name = "Wands"
     },
 };
+
+Dictionary<int, string> productTypeDictionary = new Dictionary<int, string>();
+foreach (ProductType productType in productTypes)
+{
+    // populate a dictionary, this is the translation of the code:
+    // dictionaryName[key] = value;
+    productTypeDictionary[productType.Id] = productType.Name;
+}
+
+string greeting = @"
+Welcome to Reductio & absurdum
+Wizard supplies for over 1000 years";
+
+void ViewAllProducts()
+{
+    Console.WriteLine("\u001b[4mProducts List\u001b[0m");
+
+    for (int i = 0; i < products.Count; i++)
+    {
+        Console.WriteLine($"\n{i + 1}. {products[i].Name} {(products[i].Sold ? "sold for" : "is available for")} ${products[i].Price} and is in the category: {productTypeDictionary[products[i].ProductTypeId]}");
+    }
+}
+
+void AddProduct()
+{
+
+}
+
+void DeleteProduct()
+{
+
+}
+
+void UpdateProduct()
+{
+
+}
+
+void ExitApp()
+{
+    Console.WriteLine("\nProgram Exited...\n");
+}
+
+void InvalidOption()
+{
+    Console.WriteLine("\nInvalid option...\n");
+}
+
+void Menu()
+{
+    Console.WriteLine(@$"
+{"\u001b[4mMain Menu:\u001b[0m"}
+1. View All products
+2. Add a Product to Inventory
+3. Delete a Product from Inventory
+4. Update a Product's Details
+9. Clear Window
+0. Exit
+
+Please choose an option...");
+
+    string choice = Console.ReadLine();
+
+    switch (choice)
+    {
+        case "1":
+            Console.Clear();
+            ViewAllProducts();
+            Menu();
+            break;
+        case "9":
+            Console.Clear();
+            Console.WriteLine(greeting);
+            Menu();
+            break;
+        case "0":
+            Console.Clear();
+            ExitApp();
+            break;
+        default:
+            Console.Clear();
+            InvalidOption();
+            Menu();
+            break;
+    }
+}
+
+void App()
+{
+    Console.Clear();
+    Console.WriteLine(greeting);
+    Menu();
+}
+
+App();
