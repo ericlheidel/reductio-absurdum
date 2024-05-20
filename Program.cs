@@ -168,8 +168,7 @@ void AddProduct()
 
     NewProductMenu();
 
-    string choice = null;
-    choice = Console.ReadLine();
+    string choice = Console.ReadLine();
 
     switch (choice)
     {
@@ -202,13 +201,94 @@ void AddProduct()
 
 }
 
+void RemoveProductById(List<Product> products, string name)
+{
+    Product productToRemove = products.FirstOrDefault(product => product.Name == name);
+
+    if (productToRemove != null)
+    {
+        products.Remove(productToRemove);
+        Console.Clear();
+        Console.WriteLine("Product removed...");
+    }
+    else
+    {
+        Console.Clear();
+        Console.WriteLine("Product not found...");
+    }
+}
+
 void DeleteProduct()
 {
+    Console.WriteLine("\nType a product name to remove from inventory:\n");
 
+    for (int i = 0; i < products.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {products[i].Name}");
+    }
+    Console.WriteLine("");
+
+    string response = Console.ReadLine().Trim();
+
+    RemoveProductById(products, response);
 }
 
 void UpdateProduct()
 {
+    Console.WriteLine("\nChoose a product to edit:\n");
+
+    for (int i = 0; i < products.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {products[i].Name}");
+    }
+    Console.WriteLine("");
+
+    Product chosenProduct = null;
+
+    while (chosenProduct == null)
+    {
+        int response = int.Parse(Console.ReadLine().Trim());
+        chosenProduct = products[response - 1];
+
+        Console.WriteLine($"\nPlease enter a new name ({chosenProduct.Name}):\n");
+        chosenProduct.Name = Console.ReadLine();
+
+        Console.WriteLine($"\nPlease enter a new price ({chosenProduct.Price}):\n");
+        chosenProduct.Price = decimal.Parse(Console.ReadLine());
+
+        Console.WriteLine("\nIs the product available? (Y/N)\n");
+        string isAvailable = Console.ReadLine().Trim();
+
+        switch (isAvailable)
+        {
+            case "Y":
+                chosenProduct.Sold = false;
+                break;
+            case "N":
+                chosenProduct.Sold = true;
+                break;
+            default:
+                Console.Clear();
+                Console.WriteLine("\nInvalid option...");
+                UpdateProduct();
+                break;
+        }
+
+        Console.WriteLine(@"
+Please enter a category:
+        
+1. Apparel
+2. Potions
+3. Enchanted Objects
+4. Wands
+");
+        chosenProduct.ProductTypeId = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("\nProduct updated\n");
+    }
+
+
+
 
 }
 
@@ -237,6 +317,16 @@ Please choose an option...");
         case "2":
             Console.Clear();
             AddProduct();
+            Menu();
+            break;
+        case "3":
+            Console.Clear();
+            DeleteProduct();
+            Menu();
+            break;
+        case "4":
+            Console.Clear();
+            UpdateProduct();
             Menu();
             break;
         case "9":
