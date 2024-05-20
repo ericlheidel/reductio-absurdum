@@ -286,9 +286,35 @@ Please enter a category:
 
         Console.WriteLine("\nProduct updated\n");
     }
+}
 
+void GetProductTypeId()
+{
+    Console.WriteLine("\u001b[4mSelect a category:\u001b[0m");
+    Console.WriteLine(@"
+1. Apparel
+2. Potions
+3. Enchanted Objects
+4. Wands
+");
 
+    int response = int.Parse(Console.ReadLine().Trim());
 
+    ViewProductsByProductType(products, response);
+}
+
+void ViewProductsByProductType(List<Product> products, int productTypeId)
+{
+    Console.WriteLine($"\u001b[4m{productTypeDictionary[productTypeId]} Products:\u001b[0m");
+
+    List<Product> filteredProducts = products.Where(
+        product => product.ProductTypeId == productTypeId).ToList();
+
+    Console.WriteLine("");
+    for (int i = 0; i < filteredProducts.Count; i++)
+    {
+        Console.WriteLine($"{filteredProducts[i].Name}");
+    }
 
 }
 
@@ -300,6 +326,7 @@ void Menu()
 2. Add a Product to Inventory
 3. Delete a Product from Inventory
 4. Update a Product's Details
+5. View Products by Category
 9. Clear Window
 0. Exit
 
@@ -327,6 +354,11 @@ Please choose an option...");
         case "4":
             Console.Clear();
             UpdateProduct();
+            Menu();
+            break;
+        case "5":
+            Console.Clear();
+            GetProductTypeId();
             Menu();
             break;
         case "9":
