@@ -123,6 +123,16 @@ string greeting = @"
 Welcome to Reductio & absurdum
 Wizard supplies for over 1000 years";
 
+void ExitApp()
+{
+    Console.WriteLine("\nProgram Exited...\n");
+}
+
+void InvalidOption()
+{
+    Console.WriteLine("\nInvalid option...\n");
+}
+
 void ViewAllProducts()
 {
     Console.WriteLine("\u001b[4mProducts List\u001b[0m");
@@ -133,8 +143,62 @@ void ViewAllProducts()
     }
 }
 
+void NewProductMenu()
+{
+    Console.WriteLine("\nSelect one of the following categories:\n");
+    Console.WriteLine(@"
+1. Apparel
+2. Potions
+3. Enchanted Objects
+4. Wands
+");
+}
+
 void AddProduct()
 {
+    Product newProduct = new Product();
+
+    Console.WriteLine("\nEnter a product name:\n");
+    newProduct.Name = Console.ReadLine().Trim();
+
+    Console.WriteLine("\nEnter a price:\n");
+    newProduct.Price = decimal.Parse(Console.ReadLine().Trim());
+
+    newProduct.Sold = false;
+
+    NewProductMenu();
+
+    string choice = null;
+    choice = Console.ReadLine();
+
+    switch (choice)
+    {
+        case "1":
+            Console.Clear();
+            newProduct.ProductTypeId = 1;
+            break;
+        case "2":
+            Console.Clear();
+            newProduct.ProductTypeId = 2;
+            break;
+        case "3":
+            Console.Clear();
+            newProduct.ProductTypeId = 3;
+            break;
+        case "4":
+            Console.Clear();
+            newProduct.ProductTypeId = 4;
+            break;
+        default:
+            Console.Clear();
+            InvalidOption();
+            NewProductMenu();
+            break;
+    }
+
+    products.Add(newProduct);
+    Console.Clear();
+    Console.WriteLine("\nProduct added to inventory...\n");
 
 }
 
@@ -146,16 +210,6 @@ void DeleteProduct()
 void UpdateProduct()
 {
 
-}
-
-void ExitApp()
-{
-    Console.WriteLine("\nProgram Exited...\n");
-}
-
-void InvalidOption()
-{
-    Console.WriteLine("\nInvalid option...\n");
 }
 
 void Menu()
@@ -178,6 +232,11 @@ Please choose an option...");
         case "1":
             Console.Clear();
             ViewAllProducts();
+            Menu();
+            break;
+        case "2":
+            Console.Clear();
+            AddProduct();
             Menu();
             break;
         case "9":
