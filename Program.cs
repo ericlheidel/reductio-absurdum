@@ -6,84 +6,96 @@ List<Product> products = new List<Product>()
         Name = "Invisibility Cloak",
         Price = 150.00M,
         Sold = false,
-        ProductTypeId = 1
+        ProductTypeId = 1,
+        DateStocked = new DateTime(2019,02,02)
     },
     new Product()
     {
         Name = "Phoenix Feather Wand",
         Price = 75.00M,
         Sold = false,
-        ProductTypeId = 4
+        ProductTypeId = 4,
+        DateStocked = new DateTime(2018,02,02)
     },
     new Product()
     {
         Name = "Love Potion",
         Price = 25.00M,
         Sold = true,
-        ProductTypeId = 2
+        ProductTypeId = 2,
+        DateStocked = new DateTime(2018,12,12)
     },
     new Product()
     {
         Name = "Flying Broomstick",
         Price = 200.00M,
         Sold = false,
-        ProductTypeId = 3
+        ProductTypeId = 3,
+        DateStocked = new DateTime(2016,11,11)
     },
     new Product()
     {
         Name = "Dragon Hide Gloves",
         Price = 50.00M,
         Sold = false,
-        ProductTypeId = 1
+        ProductTypeId = 1,
+        DateStocked = new DateTime(2020,01,01)
     },
     new Product()
     {
         Name = "Healing Potion",
         Price = 30.00M,
         Sold = false,
-        ProductTypeId = 2
+        ProductTypeId = 2,
+        DateStocked = new DateTime(2018,04,04)
     },
     new Product()
     {
         Name = "Enchanted Mirror",
         Price = 90.00M,
         Sold = false,
-        ProductTypeId = 3
+        ProductTypeId = 3,
+        DateStocked = new DateTime(2017,05,05)
     },
     new Product()
     {
         Name = "Elder Wand",
         Price = 300.00M,
         Sold = false,
-        ProductTypeId = 4
+        ProductTypeId = 4,
+        DateStocked = new DateTime(2016,10,10)
     },
     new Product()
     {
         Name = "Sorcerer's Stone",
         Price = 500.00M,
         Sold = true,
-        ProductTypeId = 3
+        ProductTypeId = 3,
+        DateStocked = new DateTime(2019,08,08)
     },
     new Product()
     {
         Name = "Wizard Hat",
         Price = 40.00M,
         Sold = false,
-        ProductTypeId = 1
+        ProductTypeId = 1,
+        DateStocked = new DateTime(2017,01,10)
     },
     new Product()
     {
         Name = "Truth Serum",
         Price = 35.00M,
         Sold = true,
-        ProductTypeId = 2
+        ProductTypeId = 2,
+        DateStocked = new DateTime(2020,02,02)
     },
     new Product()
     {
         Name = "Crystal Ball",
         Price = 120.00M,
         Sold = false,
-        ProductTypeId = 3
+        ProductTypeId = 3,
+        DateStocked = new DateTime(2022,02,02)
     }
 };
 
@@ -139,7 +151,8 @@ void ViewAllProducts()
 
     for (int i = 0; i < products.Count; i++)
     {
-        Console.WriteLine($"\n{i + 1}. {products[i].Name} {(products[i].Sold ? "sold for" : "is available for")} ${products[i].Price} and is in the category: {productTypeDictionary[products[i].ProductTypeId]}");
+        Console.WriteLine($"\n{i + 1}. {products[i].Name} {(products[i].Sold ? "sold for" : "is available for")} ${products[i].Price} and is in the category: {productTypeDictionary[products[i].ProductTypeId]}. {(products[i].Sold ? "" : $"This product was shelved {products[i].DaysOnShelf} days ago.")}");
+
     }
 }
 
@@ -222,9 +235,6 @@ void DeleteProduct()
         Console.WriteLine(ex);
         Console.WriteLine("\nInvalid response...");
     }
-
-
-
 }
 
 void UpdateProduct()
@@ -312,6 +322,19 @@ void ViewProductsByProductType(List<Product> products, int productTypeId)
 
 }
 
+void AvailableProducts()
+{
+    List<Product> availableProducts = products.Where(
+        product => !product.Sold).ToList();
+
+    int i = 1;
+
+    foreach (Product product in availableProducts)
+    {
+        Console.WriteLine($"{i++}. {product.Name}");
+    }
+}
+
 void Menu()
 {
     Console.WriteLine(@$"
@@ -321,6 +344,7 @@ void Menu()
 3. Delete a Product from Inventory
 4. Update a Product's Details
 5. View Products by Category
+6. View Available Products
 9. Clear Window
 0. Exit
 
@@ -353,6 +377,11 @@ Please choose an option...");
         case "5":
             Console.Clear();
             GetProductTypeId();
+            Menu();
+            break;
+        case "6":
+            Console.Clear();
+            AvailableProducts();
             Menu();
             break;
         case "9":
