@@ -201,23 +201,6 @@ void AddProduct()
 
 }
 
-void RemoveProductById(List<Product> products, string name)
-{
-    Product productToRemove = products.FirstOrDefault(product => product.Name == name);
-
-    if (productToRemove != null)
-    {
-        products.Remove(productToRemove);
-        Console.Clear();
-        Console.WriteLine("Product removed...");
-    }
-    else
-    {
-        Console.Clear();
-        Console.WriteLine("Product not found...");
-    }
-}
-
 void DeleteProduct()
 {
     Console.WriteLine("\nType a product name to remove from inventory:\n");
@@ -228,9 +211,20 @@ void DeleteProduct()
     }
     Console.WriteLine("");
 
-    string response = Console.ReadLine().Trim();
+    try
+    {
+        int response = int.Parse(Console.ReadLine().Trim());
 
-    RemoveProductById(products, response);
+        products.RemoveAt(response - 1);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
+        Console.WriteLine("\nInvalid response...");
+    }
+
+
+
 }
 
 void UpdateProduct()
